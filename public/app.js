@@ -15,6 +15,26 @@ function getInitials(name) {
     .join("") || "IG";
 }
 
+function showScreen(id) {
+  const current = document.querySelector(".screen.active");
+  const next = document.getElementById(id);
+  if (current === next) return;
+
+  if (current) {
+    current.classList.add("exit-left");
+    current.classList.remove("active");
+    setTimeout(() => current.classList.remove("exit-left"), 420);
+  }
+
+  next.classList.add("enter-right");
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      next.classList.add("active");
+      next.classList.remove("enter-right");
+    });
+  });
+}
+
 function showError(msg) {
   const el = document.getElementById("error-msg");
   el.textContent = msg;
@@ -25,30 +45,8 @@ function clearError() {
   document.getElementById("error-msg").classList.add("hidden");
 }
 
-function setLoading(on) {
-  document.getElementById("loader").classList.toggle("hidden", !on);
-  const btn = document.getElementById("extract-btn");
-  btn.disabled = on;
-  btn.querySelector(".btn-text").textContent = on ? "Loading…" : "Extract";
-}
-
-function hideResult() {
-  document.getElementById("result-card").classList.add("hidden");
-}
-
-function showResult({ username, caption, profileUrl }) {
-  document.getElementById("avatar-initials").textContent = getInitials(username);
-  document.getElementById("author-name").textContent = "@" + username;
-  const link = document.getElementById("author-link");
-  link.href = profileUrl || ("https://instagram.com/" + username);
-  document.getElementById("caption-text").textContent = caption;
-  document.getElementById("char-count").textContent = caption.length + " characters";
-  document.getElementById("result-card").classList.remove("hidden");
-}
-
 async function extractCaption() {
   clearError();
-  hideResult();
 
   const raw = document.getElementById("reel-url").value.trim();
 
@@ -58,23 +56,44 @@ async function extractCaption() {
   const shortcode = getShortcode(raw);
   if (!shortcode) { showError("Could not read the reel ID from that URL."); return; }
 
-  setLoading(true);
+  const btn = document.getElementById("extract-btn");
+  btn.disabled = true;
+
+  showScreen("screen-loading");
 
   try {
     const res = await fetch(`/api/caption?shortcode=${encodeURIComponent(shortcode)}`);
     const data = await res.json();
 
     if (!res.ok) {
+      showScreen("screen-input");
       showError(data.error || "Failed to fetch caption.");
+      btn.disabled = false;
       return;
     }
 
-    showResult(data);
+    document.getElementById("avatar-initials").textContent = getInitials(data.username);
+    document.getElementById("author-name").textContent = "@" + data.username;
+    const link = document.getElementById("author-link");
+    link.href = data.profileUrl || ("https://instagram.com/" + data.username);
+    document.getElementById("caption-text").textContent = data.caption;
+    document.getElementById("char-count").textContent = data.caption.length + " characters";
+
+    showScreen("screen-result");
   } catch (err) {
-    showError("Network error — make sure the server is running (node server.js).");
+    showScreen("screen-input");
+    showError("Network error — could not reach the server.");
   } finally {
-    setLoading(false);
+    btn.disabled = false;
   }
+}
+
+function goBack() {
+  document.getElementById("reel-url").value = "";
+  clearError();
+  document.getElementById("copy-confirm").classList.add("hidden");
+  showScreen("screen-input");
+  setTimeout(() => document.getElementById("reel-url").focus(), 420);
 }
 
 async function copyCaption() {
@@ -98,6 +117,7 @@ async function copyCaption() {
 
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("reel-url");
+  input.focus();
   input.addEventListener("keydown", (e) => { if (e.key === "Enter") extractCaption(); });
   input.addEventListener("paste", () => {
     setTimeout(() => { if (URL_PATTERN.test(input.value.trim())) extractCaption(); }, 60);
