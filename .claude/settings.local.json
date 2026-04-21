@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node server.js)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(node -e ' *)",
+      "Bash(curl -s http://localhost:3000/api/caption?shortcode=test)",
+      "Bash(node *)",
+      "Bash(curl -s \"http://localhost:3000/api/debug?shortcode=DXV3xceE4RZ\")",
+      "Bash(curl -s \"http://localhost:3000/api/debug?shortcode=DXV3xceE4RZ\" -o /tmp/debug.json)",
+      "Bash(curl -s \"http://localhost:3000/api/debug?shortcode=DXV3xceE4RZ\" -o \"D:/projects_files/reel_des/debug.json\")"
+    ]
+  }
+}
