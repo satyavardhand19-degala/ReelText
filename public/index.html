@@ -5,31 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ReelText — Instagram Caption Extractor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <div class="bg-blobs">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-  </div>
 
   <div class="container">
 
     <header>
       <div class="logo">
-        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="36" height="36" rx="10" fill="url(#grad)" />
-          <path d="M10 13h16M10 18h12M10 23h8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
-          <defs>
-            <linearGradient id="grad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#f058a4"/>
-              <stop offset="1" stop-color="#a855f7"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <span class="logo-text">ReelText</span>
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6h16M4 12h10M4 18h6"/>
+          </svg>
+        </div>
+        <span class="logo-text">Reel<span>Text</span></span>
       </div>
       <p class="tagline">Paste any Instagram Reel URL · Get the caption instantly</p>
     </header>
@@ -39,7 +29,7 @@
         <label class="input-label" for="reel-url">Instagram Reel URL</label>
         <div class="input-row">
           <div class="input-wrap">
-            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
               <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
             </svg>
@@ -53,11 +43,11 @@
           </div>
           <button id="extract-btn" onclick="extractCaption()">
             <span class="btn-text">Extract</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
         </div>
         <p id="error-msg" class="error hidden"></p>
-        <p class="hint">Public accounts only · Tries 5 different methods automatically</p>
+        <p class="hint">Public accounts only · Tries multiple methods automatically</p>
       </section>
 
       <div id="loader" class="loader hidden">
@@ -83,7 +73,7 @@
           <span id="char-count" class="char-count"></span>
           <div class="action-btns">
             <button class="btn-secondary" id="copy-btn" onclick="copyCaption()">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
               Copy Caption
             </button>
             <span id="copy-confirm" class="copy-confirm hidden">Copied!</span>
@@ -93,7 +83,7 @@
     </main>
 
     <footer>
-      <p>No data stored · Client-side only · Built for public reels</p>
+      <p>No data stored &nbsp;·&nbsp; Built for public reels &nbsp;·&nbsp; Free forever</p>
     </footer>
 
   </div>
